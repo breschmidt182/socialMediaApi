@@ -23,6 +23,4 @@ const ReactionSchema = new Schema({
     timestamps: true
 }});
 
-const Reaction = model('Reaction', ReactionSchema);
-
-module.exports = Reaction;
+module.exports = ReactionSchema;
