@@ -19,7 +19,7 @@ const thoughtController = {
 		.catch(err => res.status(400).json(err));
 	},
 
-	createThought(req, res) {
+	createThought({body}, res) {
 		Thought.create(body)
 		.then(dbNewThought => {
 			if(!req.body.title) {
@@ -31,7 +31,7 @@ const thoughtController = {
 				res.status(404).json({message:"You need to put text in your thought!"});
 				return;
 			}
-			res.status(200).json(dbNewThought, {message:"New thought created!"});
+			res.status(200).json(dbNewThought,{message:"New thought created!"});
 		})
 		.catch(err => res.status(400).json(err));
 	},
