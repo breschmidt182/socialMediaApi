@@ -59,9 +59,10 @@ const thoughtController = {
 		})
 		.catch(err => res.status(400).json(err));
 	},
-
-	createReaction({body}, res) {
-		Reaction.create(body)
+  //  Thought.findOneAndUpdate({ _id: req.params.thoughtId}, { $push: {reactions: req.body } }, { new: true })
+//     .then(...)
+	createReaction({params, body}, res) {
+		Thought.findOneAndUpdate({_id: body.thoughId}, {$push: {reactions: body}}, {new: true})
 		.then(dbNewReaction => {
 			if(!body.reactionBody) {
 				res.status(404).json({message:"You need to put some text!"});
