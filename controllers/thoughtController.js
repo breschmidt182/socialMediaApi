@@ -75,7 +75,7 @@ const thoughtController = {
 	},
 
 	deleteReaction({params, body}, res) {
-		Thought.findOneAndDelete({_id: params.id})
+		Thought.findOneAndDelete({_id: params.id}, {$pull: {reactions: body}}, {new: true})
 		.then(dbDeleteReaction => {
 			console.log(body)
 			if(!dbDeleteReaction) {
