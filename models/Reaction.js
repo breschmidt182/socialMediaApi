@@ -17,6 +17,11 @@ const ReactionSchema = new Schema({
     ref: 'User'
   },
 
+	thoughtId: {
+		type: Schema.Types.ObjectId,
+		ref:'Thought'
+	},
+
   createdAt: {
   	type: Date,
     default: Date.now,

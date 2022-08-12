@@ -23,6 +23,9 @@ router
 router
 	.route('/:id/reactions/')
 	.post(createReaction)
+
+router
+	.route('/:id/reactions/:id')
 	.delete(deleteReaction)
 	
 module.exports = router;

@@ -62,8 +62,9 @@ const thoughtController = {
   //  Thought.findOneAndUpdate({ _id: req.params.thoughtId}, { $push: {reactions: req.body } }, { new: true })
 //     .then(...)
 	createReaction({params, body}, res) {
-		Thought.findOneAndUpdate({_id: body.thoughId}, {$push: {reactions: body}}, {new: true})
+		Thought.findOneAndUpdate({_id: params.id}, {$push: {reactions: body}}, {new: true})
 		.then(dbNewReaction => {
+			console.log(body);
 			if(!body.reactionBody) {
 				res.status(404).json({message:"You need to put some text!"});
 				return;
@@ -73,9 +74,10 @@ const thoughtController = {
 		.catch(err => res.status(400).json(err));
 	},
 
-	deleteReaction({params}, res) {
-		Reaction.findOneAndDelete({_id: params.id})
+	deleteReaction({params, body}, res) {
+		Thought.findOneAndDelete({_id: params.id})
 		.then(dbDeleteReaction => {
+			console.log(body)
 			if(!dbDeleteReaction) {
 				res.status(404).json({message:"There is no reaction with that id"});
 				return;
