@@ -75,14 +75,14 @@ const thoughtController = {
 	},
 
 	deleteReaction({params, body}, res) {
-		Thought.findOneAndDelete({_id: params.id}, {$pull: {reactions: body}}, {new: true})
+		Thought.findOneAndUpdate({_id: params.id}, {$pull: {reactions: body}}, {new: true})
 		.then(dbDeleteReaction => {
 			console.log(body)
 			if(!dbDeleteReaction) {
 				res.status(404).json({message:"There is no reaction with that id"});
 				return;
 			}
-			res.status(200).json({dbDeleteThought,message:"Reaction deleted"})
+			res.status(200).json({dbDeleteReaction, message:"Reaction deleted"})
 		})
 		.catch(err => res.status(400).json(err));
 	}
