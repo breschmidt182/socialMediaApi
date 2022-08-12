@@ -1,4 +1,4 @@
-const {Thought} = require('../models/');
+const {Thought, Reaction} = require('../models/');
 
 const thoughtController = {
 	getAllThoughts(req, res) {
@@ -7,7 +7,7 @@ const thoughtController = {
 		.catch(err => res.status(400).json(err));
 	},
 
-	getThoughtById(req, res) {
+	getThoughtById({params}, res) {
 		Thought.findOne({_id: params.id})
 		.then(dbThoughtData => {
 			if(!dbThoughtData) {
@@ -22,16 +22,16 @@ const thoughtController = {
 	createThought({body}, res) {
 		Thought.create(body)
 		.then(dbNewThought => {
-			if(!req.body.title) {
+			if(!body.title) {
 				res.status(404).json({message:"Your thought needs a title!"});
 				return;
 			}
 			res.status(200).json(dbNewThought)
-			if(!req.body.thought) {
+			if(!body.thought) {
 				res.status(404).json({message:"You need to put text in your thought!"});
 				return;
 			}
-			res.status(200).json(dbNewThought,{message:"New thought created!"});
+			res.status(200).json({dbNewThought,message:"New thought created!"});
 		})
 		.catch(err => res.status(400).json(err));
 	},
@@ -43,7 +43,7 @@ const thoughtController = {
 				res.status(404).json({message:"There is no thought with that id"});
 				return;
 			}
-			res.status(200).json(dbEditThought, {message:"Thought edited"})
+			res.status(200).json({dbEditThought, message:"Thought edited"})
 		})
 		.catch(err => res.status(400).json(err));
 	},
@@ -55,7 +55,31 @@ const thoughtController = {
 				res.status(404).json({message:"There is no thought with that id"});
 				return;
 			}
-			res.status(200).json(dbDeleteThought, {message:"Thought deleted"})
+			res.status(200).json({dbDeleteThought,message:"Thought deleted"})
+		})
+		.catch(err => res.status(400).json(err));
+	},
+
+	createReaction({body}, res) {
+		Reaction.create(body)
+		.then(dbNewReaction => {
+			if(!body.reactionBody) {
+				res.status(404).json({message:"You need to put some text!"});
+				return;
+			}
+			res.status(200).json({dbNewReaction, message:"New reaction created!"});
+		})
+		.catch(err => res.status(400).json(err));
+	},
+
+	deleteReaction({params}, res) {
+		Reaction.findOneAndDelete({_id: params.id})
+		.then(dbDeleteReaction => {
+			if(!dbDeleteReaction) {
+				res.status(404).json({message:"There is no reaction with that id"});
+				return;
+			}
+			res.status(200).json({dbDeleteThought,message:"Reaction deleted"})
 		})
 		.catch(err => res.status(400).json(err));
 	}

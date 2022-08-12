@@ -25,15 +25,15 @@ const userController = {
 	createUser({body}, res) {
 		User.create(body)
 		.then(dbNewUser => {
-			if(!req.body.username) {
+			if(!body.username) {
 				res.status(404).json({message:"You need a username!"})
 				return;
 			}
-			if(!req.params.password) {
+			if(!params.password) {
 				res.status(404).json({message:"A password is required"})
 				return;
 			}
-			res.status(200).json(dbNewUser, {message: "Thanks for making an account! :)"})
+			res.status(200).json({dbNewUser, message: "Thanks for making an account! :)"})
 		})
 		.catch(err => res.status(400).json(err))
 	},
@@ -45,7 +45,7 @@ const userController = {
 				res.status(404).json({message:"There is no user with that id! Please try again"});
 				return;
 			}
-			res.status(200).json(dbUpdatedUser, {message:"User updated successfully!"})
+			res.status(200).json({dbUpdatedUser, message:"User updated successfully!"})
 		})
 		.catch(err => res.status(400).json(err));
 	},
@@ -57,7 +57,7 @@ const userController = {
 				res.status(404).json({message:"There is no user with that id"});
 				return;
 			}
-			res.status(200).json(dbDeleteUserData, {message: "User deleted"})
+			res.status(200).json({dbDeleteUserData, message: "User deleted"})
 		})
 		.catch(err => res.status(400).json(err));
 	}

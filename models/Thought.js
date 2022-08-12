@@ -16,7 +16,7 @@ const ThoughtSchema = new Schema({
   	required: 'Make sure to share your thought!'
 	},
 
-	username: {
+	userId: {
   	type: Schema.Types.ObjectId,
   	ref: 'User'
 	},
