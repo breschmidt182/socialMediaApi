@@ -60,6 +60,31 @@ const userController = {
 			res.status(200).json({dbDeleteUserData, message: "User deleted"})
 		})
 		.catch(err => res.status(400).json(err));
+	},
+
+	addFriend({params, body}, res) {
+		User.findOneAndUpdate({_id: params.id}, {$push: {friends: body}}, {new: true})
+		.then(dbNewFriend => {
+			console.log(body)
+			if(!dbNewFriend) {
+				res.status(404).json({message:'There is no user with that id!'});
+				return;
+			}
+			res.status(200).json(dbNewFriend)
+		})
+		.catch(err => res.status(400).json(err))
+	},
+
+	removeFriend({params, body}, res) {
+		User.findOneAndUpdate({_id: params.id}, {$pull: {friends: body}}, {new: true})
+		.then(dbDeleteFriend => {
+			if(!dbDeleteFriend) {
+				res.status(404).json({message:'There is no user with that id!'});
+				return;
+			}
+			res.status(200).json({message:"Friend removed!"})
+		})
+		.catch(err => res.status(400).json(err))
 	}
 
 };
